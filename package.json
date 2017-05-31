@@ -1,0 +1,19 @@
+{
+  "name": "github-page",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jetsly/jetsly.github.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jetsly/jetsly.github.io/issues"
+  },
+  "homepage": "https://github.com/Jetsly/jetsly.github.io#readme"
+}
