@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm test",
-    "npm pulish":"git checkout master && git checkout develop ./docs"
+    "publish":"git checkout master && git checkout develop ./docs"
   },
   "repository": {
     "type": "git",
