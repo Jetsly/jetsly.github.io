@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "npm pulish":"git checkout master && git checkout develop ./docs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jetsly/jetsly.github.io.git"
+    "url": "git+https://github.com/Jetsly/tools.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jetsly/jetsly.github.io/issues"
+    "url": "https://github.com/Jetsly/tools/issues"
   },
-  "homepage": "https://github.com/Jetsly/jetsly.github.io#readme",
+  "homepage": "https://github.com/Jetsly/tools#readme",
   "devDependencies": {
     "webpack": "^2.6.1"
   }
