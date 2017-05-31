@@ -1,5 +1,5 @@
 <template>
-    <div></div>
+    <div>canvas/sprite</div>
 </template>
 <script>
     export default {

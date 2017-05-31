@@ -1,5 +1,11 @@
 import Router from 'vue-router'
-const routes = []
+
+import Sprite from '../views/canvas/Sprite.vue'
+
+const routes = [{
+  path: '/canvas/sprite',
+  component: Sprite
+}]
 export default new Router({
   routes
 })
