@@ -1,9 +1,13 @@
 <template>
+<<<<<<< HEAD
   <div>
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
   </div>
+=======
+  <div></div>
+>>>>>>> master
 </template>
 <script>
   export default {
@@ -11,6 +15,7 @@
   }
 </script>
 <style lang="scss">
+<<<<<<< HEAD
   * {
     margin: 0;
     padding: 0;
@@ -21,4 +26,6 @@
   body,html {
     height: 100%;
   }
+=======
+>>>>>>> master
 </style>
