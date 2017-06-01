@@ -1,9 +1,14 @@
 import webpack from 'webpack'
 import Config from 'webpack-config'
-export default new Config().extend('scripts/conf/webpack.base.config.js').merge({
-  entry: {
-    vendor: ['vue', 'core-js/fn/promise']
-  },
+export default new Config().extend({
+  'scripts/conf/webpack.base.config.js': config => {
+    config.entry.vendor = [
+      ...config.entry.vendor,
+      'webpack-hot-middleware/client'
+    ]
+    return config
+  }
+}).merge({
   devtool: '#source-map',
   plugins: [
     new webpack.EnvironmentPlugin({
