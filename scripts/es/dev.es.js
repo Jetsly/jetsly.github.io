@@ -1,5 +1,3 @@
-import { existsSync, createReadStream } from 'fs'
-import { createGzip } from 'zlib'
 import express from 'express'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
