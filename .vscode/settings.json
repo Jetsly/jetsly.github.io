@@ -1,3 +1,13 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "path-intellisense.mappings": {
+        "assets": "${workspaceRoot}/src/assets",
+        "actions": "${workspaceRoot}/src/actions",
+        "components": "${workspaceRoot}/src/components",
+        "units": "${workspaceRoot}/src/units",
+        "stores": "${workspaceRoot}/src/stores",
+        "mixins": "${workspaceRoot}/src/mixins",
+        "directives": "${workspaceRoot}/src/directives",
+        "mocks": "${workspaceRoot}/src/mocks"
+    }
 }

@@ -14,7 +14,7 @@
             <div class="add-img" :class="direction">
                 <input type="file" @change="uploadFile" multiple accept="image/jpeg,image/jpg,image/png" />
             </div>
-            <div class="del-img" :class="direction" @click="tips('把元素拖到此处删除')"  @drop.prevent="delImg" @dragover.prevent></div>
+            <div class="del-img" data-tips="把元素拖到此处删除" :class="direction" @drop.prevent="delImg" @dragover.prevent></div>
         </div>
         <div class="footer">
             <span class="name">方向:</span><select v-model="direction">
@@ -52,9 +52,6 @@
         ToolsHeader
       },
       methods: {
-        tips (msg) {
-          alert(msg)
-        },
         uploadFile (event) {
           [].slice.call(event.target.files).forEach(file => {
             this.imgs.push({
