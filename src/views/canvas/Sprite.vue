@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <ToolsHeader title="Sprite" slogan="合成雪碧图工具"></ToolsHeader>
+    <div class="sprite">
+        <ToolsHeader title="Sprite" slogan="合成帧序列图工具"></ToolsHeader>
         <div class="content">
             <div class="imgs" ref="imgs" :class="direction">
                 <img @dragstart="dragstart" @drop.prevent="moveImg" @dragover.prevent
@@ -106,7 +106,7 @@
     }
 </script>
 <style lang="scss">
-    .content {
+    .sprite .content {
         padding: 10px;
         font-size: 0;
         .imgs {

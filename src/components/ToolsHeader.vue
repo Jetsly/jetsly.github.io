@@ -22,11 +22,13 @@
         line-height: 50px;
         border-bottom: #DDD 1px solid;
         padding-left: 10px;
+        font-size: 0;
         .logo {
             font-size: 20px;
             color: #f34e5c;
         }
         .slogan {
+            padding-left: 20px;
             font-size: 12px;
             color: #b1b1b1;
         }

@@ -1,8 +1,8 @@
 <template>
     <div class="compts">
         <ul>
-            <li v-for="(comptName,idx) in comptsName" class="draggable" v-draggable="comptName.key">
-                <span class="name">{{comptName.displayName}}</span>
+            <li v-for="(item,idx) in comptsName" class="draggable" v-draggable="item.key">
+                <span class="name">{{item.compt.displayName}}</span>
                 <span class="drag-label"><icon name="arrows"></icon>拖动</span>
             </li>
         </ul>
@@ -30,12 +30,15 @@
         height: 100%;
         background: #ccc;
         .draggable {
+            position: relative;
             display: flex;
             flex-direction: row;
             color: #666;
             font-size: 12px;
             line-height: 22px;
-            padding-bottom: 10px;
+            padding: 5px;
+            overflow: hidden;
+            border-radius: 5px;
         }
         .name {
             flex: auto;

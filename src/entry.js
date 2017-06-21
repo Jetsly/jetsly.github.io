@@ -6,9 +6,10 @@ import router from 'routers'
 // import 'mocks'
 
 import draggable from 'directives/draggable'
+import sortable from 'directives/sortable'
 
 Vue.use(draggable)
-
+Vue.use(sortable)
 new Vue({
   store,
   router,
