@@ -35,6 +35,13 @@
               name: '可视化编辑',
               path: '/layout'
             }]
+          }, {
+            type: 'pixi',
+            base: '/pixi',
+            routers: [{
+              name: '图片分片',
+              path: '/ImgShard'
+            }]
           }]
         }
       }

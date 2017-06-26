@@ -3,10 +3,8 @@
         <ToolsHeader title="Sprite" slogan="合成帧序列图工具"></ToolsHeader>
         <div class="content">
             <div class="imgs" ref="imgs" :class="direction">
-                <img @dragstart="dragstart" @drop.prevent="moveImg" @dragover.prevent
-                     :src="img.src" :title="img.title" v-for="(img,idx) in imgs" 
-                     :index="idx"
-                     :key="idx" class="imgs-item" :style="itemsStyle">
+                <img @dragstart="dragstart" @drop.prevent="moveImg" @dragover.prevent :src="img.src" :title="img.title" v-for="(img,idx) in imgs"
+                    :index="idx" :key="idx" class="imgs-item" :style="itemsStyle">
             </div>
             <template v-if="direction === 'horizontal'">
                 <br />
@@ -16,18 +14,19 @@
             </div>
             <div class="del-img" data-tips="把元素拖到此处删除" :class="direction" @drop.prevent="delImg" @dragover.prevent></div>
         </div>
-        <div class="footer">
+        <ToolsFooter>
             <span class="name">方向:</span><select v-model="direction">
                 <option value="horizontal">水平</option>
                 <option value="vertical">垂直</option>
             </select>
             <span class="name">间隔:</span><input type="number" v-model="span" />
             <a href="javascript:;" class="btn-down" @click="compose">下载</a>
-        </div>
+        </ToolsFooter>
     </div>
 </template>
 <script>
     import ToolsHeader from 'components/ToolsHeader'
+    import ToolsFooter from 'components/ToolsFooter'
     import 'units/toBlobPolyfill'
     export default {
       data () {
@@ -49,7 +48,8 @@
         }
       },
       components: {
-        ToolsHeader
+        ToolsHeader,
+        ToolsFooter
       },
       methods: {
         uploadFile (event) {
@@ -190,36 +190,6 @@
                 height: 100%;
                 cursor: inherit;
             }
-        }
-    }
-
-    .footer {
-        padding-left: 10px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        height: 50px;
-        line-height: 50px;
-        width: 100%;
-        border-top: #DDD 1px solid;
-
-        .name {
-            padding: 0 5px 0 15px;
-        }
-        input,
-        select {
-            padding: 4px 7px;
-            font-size: 12px;
-            border: 1px solid #dddee1;
-            border-radius: 4px;
-            color: #495060;
-            background-color: #fff;
-        }
-        .btn-down {
-            padding: 4px 7px;
-            font-size: 15px;
-            border: 1px solid #dddee1;
-            border-radius: 4px;
         }
     }
 </style>
