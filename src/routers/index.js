@@ -4,6 +4,7 @@ import Index from '../views/Index.vue'
 import Sprite from '../views/canvas/Sprite.vue'
 import Layout from '../views/compt/Layout.vue'
 import ImgShard from '../views/pixi/ImgShard.vue'
+import Door from '../views/aframe/Door.vue'
 
 const routes = [{
   path: '/',
@@ -17,6 +18,9 @@ const routes = [{
 }, {
   path: '/pixi/imgshard',
   component: ImgShard
+}, {
+  path: '/aframe/door',
+  component: Door
 }]
 export default new Router({
   routes
