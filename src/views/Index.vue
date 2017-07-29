@@ -42,6 +42,13 @@
               name: '图片分片',
               path: '/ImgShard'
             }]
+          }, {
+            type: 'aframe',
+            base: '/aframe',
+            routers: [{
+              name: '门口',
+              path: '/door'
+            }]
           }]
         }
       }

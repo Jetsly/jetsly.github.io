@@ -41,6 +41,9 @@ export default {
     })
   ],
   module: {
+    noParse: [
+      /aframe-master/
+    ],
     rules: [{
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
@@ -59,7 +62,16 @@ export default {
     {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [env.assetsPath('src'), env.assetsPath('test'), env.assetsPath('node_modules')]
+      include: [env.assetsPath('src'), env.assetsPath('test'), env.assetsPath('node_modules')],
+      exclude: [env.assetsPath('node_modules/aframe')]
+    },
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'file-loader',
+      options: {
+        limit: 10000,
+        name: 'img/[name].[hash:7].[ext]'
+      }
     },
     {
       test: /\.pug$/,
