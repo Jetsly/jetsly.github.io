@@ -1,8 +1,7 @@
 import autoprefixer from 'autoprefixer'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import {
-  env
-} from './utils.js'
+import { join } from 'path'
+export const assetsPath = (...relativePath) => join(__dirname, '../../', ...relativePath)
 var isProduction = process.env.NODE_ENV === 'production'
 const generateLoaders = loader => {
   var loaders = [{
@@ -17,7 +16,7 @@ const generateLoaders = loader => {
       loader: loader + '-loader',
       options: {
         sourceMap: !isProduction,
-        includePaths: [env.assetsPath('src')]
+        includePaths: [assetsPath('src')]
         // data: "@import 'config/mixin';"
       }
     })
