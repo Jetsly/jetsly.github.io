@@ -35,9 +35,6 @@ export default {
     })
   },
   module: {
-    noParse: [
-      /aframe-master/
-    ],
     rules: [{
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
@@ -56,8 +53,8 @@ export default {
     {
       test: /\.js$/,
       loader: 'babel-loader',
-      include: [assetsPath('src'), assetsPath('test'), assetsPath('node_modules')],
-      exclude: [assetsPath('node_modules/aframe')]
+      include: [assetsPath('src'), assetsPath('test')],
+      exclude: [assetsPath('node_modules')]
     },
     {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
