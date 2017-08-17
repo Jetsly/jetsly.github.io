@@ -1,4 +1,3 @@
-import webpack from 'webpack'
 import Config from 'webpack-config'
 export default new Config().extend({
   'config/webpack.base.conf.js': config => {
@@ -8,14 +7,4 @@ export default new Config().extend({
     ]
     return config
   }
-}).merge({
-  devtool: '#source-map',
-  plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: JSON.stringify('development'),
-      DEBUG: true
-    }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ]
 })

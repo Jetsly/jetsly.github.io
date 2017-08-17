@@ -6,6 +6,7 @@ import {
   default as cssLoaders
 } from './vue-loader.conf'
 export const assetsPath = (...relativePath) => join(__dirname, '../', ...relativePath)
+const isFontFile = url => /\.(woff2?|eot|ttf|otf)(\?.*)?$/.test(url)
 export default {
   entry: {
     app: ['./src/entry.js'],
@@ -39,8 +40,8 @@ export default {
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
       enforce: 'pre',
-      include: [assetsPath('src'), assetsPath('test')],
-      exclude: [assetsPath('src/assets/libs')],
+      include: [assetsPath('src')],
+      exclude: [assetsPath('node_modules')],
       options: {
         formatter: require('eslint-friendly-formatter')
       }
@@ -60,8 +61,16 @@ export default {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       loader: 'file-loader',
       options: {
-        limit: 10000,
         name: 'img/[name].[hash:7].[ext]'
+      }
+    },
+    {
+      test: /\.(woff2?|eot|ttf|otf|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[hash:7].[ext]',
+        outputPath: url => `${isFontFile(url) ? 'fonts' : 'media'}/${url}`,
+        publicPath: url => `${isFontFile(url) ? '../' : './'}${url}`
       }
     }
     ].concat(styleLoaders())

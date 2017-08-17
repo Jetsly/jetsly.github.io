@@ -27,6 +27,9 @@
             routers: [{
               name: '帧序列图',
               path: '/sprite'
+            }, {
+              name: '图像处理',
+              path: '/imgrec'
             }]
           }, {
             type: 'compt',
@@ -41,6 +44,9 @@
             routers: [{
               name: '图片分片',
               path: '/ImgShard'
+            }, {
+              name: '图片裁剪',
+              path: '/ImgCut'
             }]
           }, {
             type: 'aframe',
@@ -80,6 +86,7 @@
                 padding: 0 9px;
                 color: #495060;
                 font-size: 14px;
+                margin-right: 5px;
             }
         }
     }

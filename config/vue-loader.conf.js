@@ -1,7 +1,7 @@
 import autoprefixer from 'autoprefixer'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import { join } from 'path'
-export const assetsPath = (...relativePath) => join(__dirname, '../../', ...relativePath)
+export const assetsPath = (...relativePath) => join(__dirname, '../', ...relativePath)
 var isProduction = process.env.NODE_ENV === 'production'
 const generateLoaders = loader => {
   var loaders = [{
