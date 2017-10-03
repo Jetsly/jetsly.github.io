@@ -2,11 +2,11 @@
   <div class="imgshared">
     <ToolsHeader title="ImgShared" slogan="图片分片工具"></ToolsHeader>
     <div class="content" ref="content">
-      <template v-if="!imgUrl">
-        <input type="file" @change="change"></input>
+      <template v-if="!files.length">
+        <input type="file" @change="change" multiple></input>
       </template>
     </div>
-    <ToolsFooter v-if="imgUrl">
+    <ToolsFooter v-if="files.length">
       <span class="name">高度:</span><input type="number" v-model="height" @input="changeHei"></input>
       <a href="javascript:;" class="btn-down" @click="shard">下载</a>
     </ToolsFooter>
@@ -35,9 +35,8 @@
     data () {
       return {
         height: 1000,
-        imgUrl: '',
-        fileName: '',
-        fileType: ''
+        scale: 1,
+        files: []
       }
     },
     beforeDestroy () {
@@ -48,89 +47,110 @@
     },
     methods: {
       change (event) {
-        const file = event.target.files[0]
-        this.fileName = file.name
-        this.fileType = file.type
-        this.imgUrl = URL.createObjectURL(file)
-        const img = new Image()
-        img.onload = () => {
-          this.showImg(img)
-        }
-        img.src = this.imgUrl
+        const files = event.target.files
+        Promise.all(Array.prototype.slice.call(files).map(file => new Promise(resolve => {
+          this.imgUrl = URL.createObjectURL(file)
+          const img = new Image()
+          img.onload = () => {
+            const w = Math.min(750, img.naturalWidth)
+            const h = img.naturalHeight / img.naturalWidth * w
+            resolve({
+              img: img,
+              w,
+              h,
+              name: file.name,
+              type: file.type
+            })
+          }
+          img.src = this.imgUrl
+        }))).then(files => {
+          let w = 0
+          let h = 0
+          this.files = files
+          this.files.forEach(file => {
+            w += file.w
+            h = Math.max(file.h, h)
+          })
+          event.target.value = ''
+          this.showImg(w, h)
+        })
       },
-      showImg (img) {
-        const w = Math.min(750, img.naturalWidth)
+      showImg (w, h) {
         this.app = new Application({
-          height: img.naturalHeight / img.naturalWidth * w,
-          width: w,
+          height: h,
+          width: w + (this.files.length - 1) * 2, // 2 的宽度用于画分割线
           transparent: true,
           preserveDrawingBuffer: true
         })
-        this.appLine = new Application({
-          height: img.naturalHeight / img.naturalWidth * w,
-          width: w,
-          transparent: true
-        })
+        if (this.files.length > 1) {
+          this.app.view.style.width = `${this.files.length * 200}px`
+        }
         this.$refs.content.appendChild(this.app.view)
-        this.appLine.view.setAttribute('class', 'lineMap')
-        this.$refs.content.appendChild(this.appLine.view)
-        const bunny = new Sprite(Texture.fromLoader(img))
-        bunny.width = this.app.view.width
-        bunny.height = this.app.view.height
-        this.app.stage.addChild(bunny)
+        let x = 0
+        this.files.forEach(file => {
+          const bunny = new Sprite(Texture.fromLoader(file.img))
+          bunny.position.set(x, 0)
+          bunny.width = file.w
+          bunny.height = file.h
+          bunny.scale.set(this.scale, this.scale)
+          x += (bunny.width + 2)
+          this.app.stage.addChild(bunny)
+        })
         this.container = new Container()
-        this.appLine.stage.addChild(this.container)
+        this.app.stage.addChild(this.container)
         this.changeHei()
       },
       changeHei () {
         this.container.removeChildren()
         const count = Math.ceil(this.app.view.height / this.height)
-        for (var idx = 0; idx < count; idx++) {
-          let height = this.height
-          if (idx === count - 1) {
-            height = this.app.view.height % this.height - 1
+        if (count !== Infinity) {
+          for (var idx = 0; idx < count; idx++) {
+            let height = this.height
+            if (idx === count - 1) {
+              // 减去1为了画出边线
+              height = this.app.view.height % this.height - 1
+            }
+            const graphics = new Graphics()
+            graphics.lineStyle(1, 0x0000ff)
+            graphics.drawRect(0, 0, this.app.view.width - 1, height - 1)
+            graphics.x = 1
+            graphics.y = (idx * this.height) + 1
+            this.container.addChild(graphics)
+            const text = new Text(`第${idx + 1}切片`)
+            text.style.fontSize = 20 * this.files.length
+            text.style.fill = '#ffffff'
+            const textBg = new Graphics()
+            textBg.beginFill(0x0000ff)
+            textBg.drawRect(0, 0, text.width, text.height)
+            textBg.endFill()
+            graphics.addChild(textBg)
+            graphics.addChild(text)
           }
-          const graphics = new Graphics()
-          graphics.lineStyle(1, 0x0000ff)
-          graphics.drawRect(0, 0, this.app.view.width - 1, height - 1)
-          graphics.x = 1
-          graphics.y = (idx * this.height) + 1
-          this.container.addChild(graphics)
-          const text = new Text(`第${idx + 1}切片`)
-          text.style.fontSize = 20
-          text.style.fill = '#ffffff'
-          const textBg = new Graphics()
-          textBg.beginFill(0x0000ff)
-          textBg.drawRect(0, 0, text.width, text.height)
-          textBg.endFill()
-          graphics.addChild(textBg)
-          graphics.addChild(text)
         }
       },
       shard () {
-        const count = Math.ceil(this.app.view.height / this.height)
         var zip = new JSZip()
-        for (var idx = 0; idx < count; idx++) {
-          let height = this.height
-          if (idx === count - 1) {
-            height = this.app.view.height % this.height
+        this.files.forEach(file => {
+          var imgs = zip.folder(file.name)
+          let idx = 0
+          while (idx * this.height < file.h) {
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            let height = this.height
+            if ((idx + 1) * this.height > file.h) {
+              height = file.h % this.height
+            }
+            canvas.width = file.w
+            canvas.height = height
+            ctx.drawImage(file.img, 0, idx * this.height, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
+            imgs.file(`${file.name.replace(/\.\w+/, val => `${idx + 1}${val}`)}`, canvas.toDataURL(file.type).replace(/^.*?,/, ''), {base64: true})
+            idx = idx + 1
           }
-          const canvas = document.createElement('canvas')
-          const ctx = canvas.getContext('2d')
-          canvas.width = this.app.view.width
-          canvas.height = height
-          ctx.drawImage(this.app.view, 0, idx * this.height, canvas.width, canvas.height, 0, 0,
-            canvas.width,
-            canvas.height)
-          zip.file(this.fileName.replace(/\.\w+/, val => `${idx + 1}${val}`), canvas.toDataURL(this.fileType)
-            .replace(/^.*?,/, ''), {
-            base64: true
-          })
-        }
+        })
         zip.generateAsync({
           type: 'blob'
         }).then(content => {
-          download(content, this.fileName.replace(/\.\w+/, val => `.zip`))
+          download(content, 'imgShard.zip')
         })
       }
     }
