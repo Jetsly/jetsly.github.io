@@ -117,7 +117,7 @@
             graphics.y = (idx * this.height) + 1
             this.container.addChild(graphics)
             const text = new Text(`第${idx + 1}切片`)
-            text.style.fontSize = 20 * this.files.length
+            text.style.fontSize = Math.max(20 * this.files.length, 60)
             text.style.fill = '#ffffff'
             const textBg = new Graphics()
             textBg.beginFill(0x0000ff)
